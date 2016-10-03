@@ -38,20 +38,23 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
 
     private String fontName = "Verdana";
 
-    KeyEventHandler(final Group root, int windowWidth, int windowHeight) {
-        textCenterX = 15;
-        textCenterY = 0;
+    //10.2
+    public Editor editor;
+    KeyEventHandler(final Group root, int windowWidth, int windowHeight, Editor editor) {
+        this.editor = editor;
+        //textCenterX = 15;
+        //textCenterY = 0;
 
         // Initialize some empty text and add it to root so that it will be displayed.
-        displayText = new Text(textCenterX, textCenterY, "");
+        //displayText = new Text(textCenterX, textCenterY, "");
         // Always set the text origin to be VPos.TOP! Setting the origin to be VPos.TOP means
         // that when the text is assigned a y-position, that position corresponds to the
         // highest position across all letters (for example, the top of a letter like "I", as
         // opposed to the top of a letter like "e"), which makes calculating positions much
         // simpler!
-        displayText.setTextOrigin(VPos.TOP);
-        displayText.setFont(Font.font(fontName, fontSize));
-        root.getChildren().add(displayText);
+        //displayText.setTextOrigin(VPos.TOP);
+        //displayText.setFont(Font.font(fontName, fontSize));
+        //root.getChildren().add(displayText);
     }
 
     @Override
@@ -64,9 +67,13 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
             if (characterTyped.length() > 0 && characterTyped.charAt(0) != 8) {
                 // Ignore control keys, which have zero length, as well as the backspace
                 // key, which is represented as a character of value = 8 on Windows.
-                displayText.setText(characterTyped);
+                //displayText.setText(characterTyped);
+                editor.add(characterTyped);
                 keyEvent.consume();
             }
+            else if(characterTyped.charAt(0) == 8)
+                editor.delete();
+
 
         } else if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
             // Arrow keys should be processed using the KEY_PRESSED event, because KEY_PRESSED
