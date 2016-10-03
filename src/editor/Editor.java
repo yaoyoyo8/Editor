@@ -36,13 +36,27 @@ public class Editor extends Application{
     private Cursor cur;
     private int line_length;
     protected FastLinkedList buffer;
-
+    private int positionX = 5;
+    private int positionY = 0;
+    //private Text displayText = new Text(STARTING_TEXT_POSITION_X, STARTING_TEXT_POSITION_Y, "");
+    private String fontName = "Verdana";
+    private int fontSize = 20;
+    private History history;
 
     public void delete () {
-        return;
+        buffer.remove();
+
+
     }
-    public void add () {
-        return;
+    public void add (String character) {
+        Text current  = new Text(character);
+        FastLinkedListNode temp = new FastLinkedListNode(current);
+        buffer.add(temp);
+        //may change after adding cursor
+        //int eventX = positionX + (int)Math.round(current.getLayoutBounds().getWidth());
+        //int eventY = positionY + (int)Math.round(current.getLayoutBounds().getHeight());
+        //HistoryEvent event = new HistoryEvent(KeyCode.ADD, current, eventX, eventY );
+        //history.newEvent(event);
     }
     public void handle () {
         return;
@@ -63,9 +77,23 @@ public class Editor extends Application{
         scrollBar.setLayoutX(windowWidth - scrollBar.getLayoutBounds().getWidth() - 8);
         root.getChildren().add(scrollBar);
         //bring in keyEventHandler
-        EventHandler<KeyEvent> keyEventHandler = new KeyEventHandler(root, windowWidth, windowHeight);
+        EventHandler<KeyEvent> keyEventHandler = new KeyEventHandler(root, windowWidth, windowHeight, this);
         scene.setOnKeyTyped(keyEventHandler);
         scene.setOnKeyPressed(keyEventHandler);
+
+        FastLinkedListNode temp = buffer.getCurrentNode();
+        while(temp!=null){
+            Text displayText = temp.getItem();
+            displayText.setFont(Font.font(fontName, fontSize));
+            displayText.setX(positionX);
+            displayText.setY(positionY);
+            root.getChildren().add(displayText);
+            int charWidth = (int)Math.round(displayText.getLayoutBounds().getWidth());
+            int charHeight = (int)Math.round(displayText.getLayoutBounds().getHeight());
+            positionX += charWidth;
+            positionY += charHeight;
+            temp = temp.getNext();
+        }
 
         primaryStage.setScene(scene);
         primaryStage.show();
