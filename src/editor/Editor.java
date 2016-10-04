@@ -35,20 +35,22 @@ public class Editor extends Application{
     private int windowHeight = 500;
     private Cursor cur;
     private int line_length;
-    protected FastLinkedList buffer;
-    private int positionX = 5;
-    private int positionY = 0;
+    protected FastLinkedList buffer = new FastLinkedList();
+    public int positionX = 5;
+    public int positionY = 0;
     //private Text displayText = new Text(STARTING_TEXT_POSITION_X, STARTING_TEXT_POSITION_Y, "");
     private String fontName = "Verdana";
     private int fontSize = 20;
     private History history;
-
+    boolean startEvent = false;
     public void delete () {
         buffer.remove();
 
 
     }
     public void add (String character) {
+        //startEvent = true;
+        System.out.println(character);
         Text current  = new Text(character);
         FastLinkedListNode temp = new FastLinkedListNode(current);
         buffer.add(temp);
@@ -81,19 +83,22 @@ public class Editor extends Application{
         scene.setOnKeyTyped(keyEventHandler);
         scene.setOnKeyPressed(keyEventHandler);
 
+
         FastLinkedListNode temp = buffer.getCurrentNode();
-        while(temp!=null){
+        System.out.println(temp.getItem());
+        while (temp != null) {
             Text displayText = temp.getItem();
             displayText.setFont(Font.font(fontName, fontSize));
             displayText.setX(positionX);
             displayText.setY(positionY);
             root.getChildren().add(displayText);
-            int charWidth = (int)Math.round(displayText.getLayoutBounds().getWidth());
-            int charHeight = (int)Math.round(displayText.getLayoutBounds().getHeight());
+            int charWidth = (int) Math.round(displayText.getLayoutBounds().getWidth());
+            int charHeight = (int) Math.round(displayText.getLayoutBounds().getHeight());
             positionX += charWidth;
             positionY += charHeight;
             temp = temp.getNext();
         }
+
 
         primaryStage.setScene(scene);
         primaryStage.show();

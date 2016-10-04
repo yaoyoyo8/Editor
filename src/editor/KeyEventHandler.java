@@ -40,10 +40,27 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
 
     //10.2
     public Editor editor;
+    Group root;
     KeyEventHandler(final Group root, int windowWidth, int windowHeight, Editor editor) {
+        this.root = root;
         this.editor = editor;
-        //textCenterX = 15;
-        //textCenterY = 0;
+        textCenterX = 15;
+        textCenterY = 0;
+//        FastLinkedListNode temp = editor.buffer.getCurrentNode();
+//        //System.out.println(temp.getItem());
+//        while (temp != null) {
+//            Text displayText = temp.getItem();
+//            displayText.setFont(Font.font(fontName, fontSize));
+//            displayText.setX(editor.positionX);
+//            displayText.setY(editor.positionY);
+//            //displayText.setText(displayText.getText()+temp.getItem().getText());
+//            root.getChildren().add(displayText);
+//            int charWidth = (int) Math.round(displayText.getLayoutBounds().getWidth());
+//            int charHeight = (int) Math.round(displayText.getLayoutBounds().getHeight());
+//            editor.positionX += charWidth;
+//            //editor.positionY += charHeight;
+//            temp = temp.getNext();
+//        }
 
         // Initialize some empty text and add it to root so that it will be displayed.
         //displayText = new Text(textCenterX, textCenterY, "");
@@ -68,7 +85,25 @@ public class KeyEventHandler implements EventHandler<KeyEvent> {
                 // Ignore control keys, which have zero length, as well as the backspace
                 // key, which is represented as a character of value = 8 on Windows.
                 //displayText.setText(characterTyped);
+
                 editor.add(characterTyped);
+                FastLinkedListNode temp = editor.buffer.getCurrentNode();
+                //System.out.println(temp.getItem());
+                while (temp != null) {
+                    Text displayText = temp.getItem();
+                    displayText.setFont(Font.font(fontName, fontSize));
+                    displayText.setX(editor.positionX);
+                    displayText.setY(editor.positionY);
+                    //displayText.setText(displayText.getText()+temp.getItem().getText());
+                    root.getChildren().add(displayText);
+
+                    int charWidth = (int) Math.round(displayText.getLayoutBounds().getWidth());
+                    int charHeight = (int) Math.round(displayText.getLayoutBounds().getHeight());
+                    editor.positionX += charWidth;
+                    //editor.positionY += charHeight;
+                    temp = temp.getNext();
+                }
+
                 keyEvent.consume();
             }
             else if(characterTyped.charAt(0) == 8)
