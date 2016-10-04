@@ -39,6 +39,7 @@ public class FastLinkedList {
         this.curX = curX;
         this.curY = curY;
     }
+    public int getSize(){return  size;}
     //add a node
     public void add(FastLinkedListNode node) {
         if (currentIndex == size) {
@@ -63,9 +64,11 @@ public class FastLinkedList {
     }
     //remove the current node
     public FastLinkedListNode remove() {
+        if (getSize() == 0) {return null;}
         FastLinkedListNode ret = currentNode;
         int charWidth = (int) Math.round(currentNode.getItem().getLayoutBounds().getWidth());
         int charHeight = (int) Math.round(currentNode.getItem().getLayoutBounds().getHeight());
+        System.out.println(charHeight);
         if (currentIndex == size) {
             currentNode = currentNode.getPrev();
             currentNode.setNext(null);
@@ -82,14 +85,20 @@ public class FastLinkedList {
     }
     public static void main(String[] args) {
         FastLinkedList f = new FastLinkedList();
-        f.add(new FastLinkedListNode(new Text("first node")));
-        System.out.println(f.getCurrentNode().getItem().getText() + " " + f.getCurX() + " " + f.getCurY());
+        f.add(new FastLinkedListNode(new Text("a")));
+        System.out.println(f.getCurrentNode().getItem().getText() + " " + f.getCurX() + " " + f.getCurY() + " " + f.getCurrentIndex());
         System.out.println(f.size);
-        f.add(new FastLinkedListNode(new Text("second node")));
-        System.out.println(f.getCurrentNode().getItem().getText() + " " + f.getCurX() + " " + f.getCurY());
+        f.add(new FastLinkedListNode(new Text("b")));
+        System.out.println(f.getCurrentNode().getItem().getText() + " " + f.getCurX() + " " + f.getCurY() + " " + f.getCurrentIndex());
+        System.out.println(f.size);
+        f.add(new FastLinkedListNode(new Text("c")));
+        System.out.println(f.getCurrentNode().getItem().getText() + " " + f.getCurX() + " " + f.getCurY() + " " + f.getCurrentIndex());
+        System.out.println(f.size);
+        f.add(new FastLinkedListNode(new Text("d")));
+        System.out.println(f.getCurrentNode().getItem().getText() + " " + f.getCurX() + " " + f.getCurY() + " " + f.getCurrentIndex());
         System.out.println(f.size);
         f.remove();
-        System.out.println(f.getCurrentNode().getItem().getText() + " " + f.getCurX() + " " + f.getCurY());
+        System.out.println(f.getCurrentNode().getItem().getText() + " " + f.getCurX() + " " + f.getCurY() + " " + f.getCurrentIndex());
         System.out.println(f.size);
     }
 }
