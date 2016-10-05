@@ -103,7 +103,7 @@ public class FastLinkedList {
                     rst = ptr;
                     ptr = ptr.getPrev();
                 } else {
-                    return rst;
+                    break;
                 }
             }
         }
@@ -126,7 +126,7 @@ public class FastLinkedList {
                     rst = ptr;
                     ptr = ptr.getNext();
                 } else {
-                    return rst;
+                    break;
                 }
             }
         }
