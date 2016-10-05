@@ -17,9 +17,9 @@ public class FastLinkedList {
     private String fontName = "Verdana";
 
     public FastLinkedList() {
-        sentinel = new FastLinkedListNode(new Text(5, 0, ""), null, null);
+        sentinel = new FastLinkedListNode();
         currentIndex = 0;
-        curX = 5;
+        curX = 0;
         curY = 0;
         currentNode = sentinel;
         size = 0;
@@ -82,6 +82,50 @@ public class FastLinkedList {
         ///////how to update cur x, y?? need to be improved
         updateCurXY(curX - charWidth, curY);
         return ret;
+    }
+    public FastLinkedListNode findNodewithXYForUpAndLeft(int x, int y, int lineLength, int charHeight) {
+        if (y > currentNode.getYPos()) {
+            return null;
+        }
+        FastLinkedListNode ptr = getCurrentNode();
+        FastLinkedListNode rst = getCurrentNode();
+        while (ptr != getSentinel()) {
+            if (ptr.getYPos() > y) {
+                ptr = ptr.getPrev();
+                rst = ptr;
+                continue;
+            } else {
+                if (x <= ptr.getXPos()) {
+                    rst = ptr;
+                    ptr = ptr.getPrev();
+                } else {
+                    return rst;
+                }
+            }
+        }
+        return rst;
+    }
+    public FastLinkedListNode findNodewithXYForDownAndRight(int x, int y, int lineLength, int charHeight) {
+        if (y < currentNode.getYPos()) {
+            return null;
+        }
+        FastLinkedListNode ptr = getCurrentNode();
+        FastLinkedListNode rst = getCurrentNode();
+        while (ptr != null && ptr.getNext() != null) {
+            if (ptr.getYPos() < y) {
+                ptr = ptr.getNext();
+                rst = ptr;
+                continue;
+            } else {
+                if (x >= ptr.getXPos()) {
+                    rst = ptr;
+                    ptr = ptr.getNext();
+                } else {
+                    return rst;
+                }
+            }
+        }
+        return rst;
     }
     public static void main(String[] args) {
         FastLinkedList f = new FastLinkedList();
