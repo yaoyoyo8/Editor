@@ -26,12 +26,12 @@ public class FastLinkedListNode {
         return (int) Math.round(item.getX());
     }
     public int getYPos() {return (int) Math.round(item.getY());}
+    public int getCharWidth() {return charWidth;}
 
     public void setPrev(FastLinkedListNode prev) {this.prev = prev;}
     public void setNext(FastLinkedListNode next) {this.next = next;}
     public void setItem(Text item) {this.item = item;}
     public void updateXPos(int newX) {item.setX(newX);}
     public void updateYPos(int newY) {item.setY(newY);}
-
     public void setCharWidth(int charWidth) {this.charWidth = charWidth;}
 }
