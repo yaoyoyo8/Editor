@@ -107,7 +107,7 @@ public class FastLinkedList {
                 }
             }
         }
-
+        updateCurrentNode(rst);
         return rst;
     }
     public FastLinkedListNode findNodewithXYForDownAndRight(int x, int y) {
@@ -130,6 +130,7 @@ public class FastLinkedList {
                 }
             }
         }
+        updateCurrentNode(rst);
         return rst;
     }
     public static void main(String[] args) {
