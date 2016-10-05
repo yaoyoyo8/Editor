@@ -39,6 +39,10 @@ public class FastLinkedList {
         this.curX = curX;
         this.curY = curY;
     }
+    public void updateCurrentNode(FastLinkedListNode node) {
+        currentNode = node;
+        updateCurXY(node.getXPos(), node.getYPos());
+    }
     public int getSize(){return  size;}
     //add a node
     public void add(FastLinkedListNode node) {
@@ -83,7 +87,7 @@ public class FastLinkedList {
         updateCurXY(curX - charWidth, curY);
         return ret;
     }
-    public FastLinkedListNode findNodewithXYForUpAndLeft(int x, int y, int lineLength, int charHeight) {
+    public FastLinkedListNode findNodewithXYForUpAndLeft(int x, int y) {
         if (y > currentNode.getYPos()) {
             return null;
         }
@@ -103,9 +107,10 @@ public class FastLinkedList {
                 }
             }
         }
+
         return rst;
     }
-    public FastLinkedListNode findNodewithXYForDownAndRight(int x, int y, int lineLength, int charHeight) {
+    public FastLinkedListNode findNodewithXYForDownAndRight(int x, int y) {
         if (y < currentNode.getYPos()) {
             return null;
         }
