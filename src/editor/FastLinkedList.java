@@ -46,7 +46,7 @@ public class FastLinkedList {
     public int getSize(){return  size;}
     //add a node
     public void add(FastLinkedListNode node) {
-        if (currentIndex == size) {
+        if (getCurrentNode().getNext() == null) {
             currentNode.setNext(node);
             node.setPrev(currentNode);
             node.setNext(null);
@@ -62,9 +62,6 @@ public class FastLinkedList {
         currentIndex++;
         int charWidth = (int) Math.round(node.getItem().getLayoutBounds().getWidth());
         int charHeight = (int) Math.round(node.getItem().getLayoutBounds().getHeight());
-
-        ///////how to update cur x, y? need to be improved
-        updateCurXY(curX + charWidth, curY);
     }
     //remove the current node
     public FastLinkedListNode remove() {
@@ -72,19 +69,16 @@ public class FastLinkedList {
         FastLinkedListNode ret = currentNode;
         int charWidth = (int) Math.round(currentNode.getItem().getLayoutBounds().getWidth());
         int charHeight = (int) Math.round(currentNode.getItem().getLayoutBounds().getHeight());
-        System.out.println(charHeight);
-        if (currentIndex == size) {
+        if (getCurrentNode().getNext() == null) {
             currentNode = currentNode.getPrev();
             currentNode.setNext(null);
         } else {
-            currentNode.getNext().setPrev(currentNode.getPrev());
-            currentNode.getPrev().setNext(currentNode.getNext());
             currentNode = currentNode.getPrev();
+            currentNode.getNext().getNext().setPrev(currentNode);
+            currentNode.setNext(currentNode.getNext().getNext());
         }
         size--;
         currentIndex--;
-        ///////how to update cur x, y?? need to be improved
-        updateCurXY(curX - charWidth, curY);
         return ret;
     }
     public FastLinkedListNode findNodewithXYForUpAndLeft(int x, int y) {
@@ -136,19 +130,25 @@ public class FastLinkedList {
     public static void main(String[] args) {
         FastLinkedList f = new FastLinkedList();
         f.add(new FastLinkedListNode(new Text("a")));
-        System.out.println(f.getCurrentNode().getItem().getText() + " " + f.getCurX() + " " + f.getCurY() + " " + f.getCurrentIndex());
-        System.out.println(f.size);
         f.add(new FastLinkedListNode(new Text("b")));
-        System.out.println(f.getCurrentNode().getItem().getText() + " " + f.getCurX() + " " + f.getCurY() + " " + f.getCurrentIndex());
-        System.out.println(f.size);
         f.add(new FastLinkedListNode(new Text("c")));
-        System.out.println(f.getCurrentNode().getItem().getText() + " " + f.getCurX() + " " + f.getCurY() + " " + f.getCurrentIndex());
-        System.out.println(f.size);
         f.add(new FastLinkedListNode(new Text("d")));
-        System.out.println(f.getCurrentNode().getItem().getText() + " " + f.getCurX() + " " + f.getCurY() + " " + f.getCurrentIndex());
-        System.out.println(f.size);
+        f.updateCurrentNode(f.getCurrentNode().getPrev());
+        f.add(new FastLinkedListNode(new Text("x")));
+        System.out.println("currentnode: " + f.getCurrentNode().getItem().getText() +" == x");
+        FastLinkedListNode ptr1 = f.getSentinel().getNext();
+        while(ptr1!=null) {
+            System.out.print(ptr1.getItem().getText() + " ");
+            ptr1 = ptr1.getNext();
+        }
+        System.out.println();
         f.remove();
-        System.out.println(f.getCurrentNode().getItem().getText() + " " + f.getCurX() + " " + f.getCurY() + " " + f.getCurrentIndex());
-        System.out.println(f.size);
+        FastLinkedListNode ptr = f.getSentinel().getNext();
+        while(ptr!=null) {
+            System.out.print(ptr.getItem().getText() + " ");
+            ptr = ptr.getNext();
+        }
+        System.out.println();
+        System.out.println("currentnode: " + f.getCurrentNode().getItem().getText() +" == c");
     }
 }
