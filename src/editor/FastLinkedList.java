@@ -8,7 +8,6 @@ import javafx.scene.text.Text;
  */
 public class FastLinkedList {
     private FastLinkedListNode sentinel;
-    private int currentIndex;
     private int curX;
     private int curY;
     private FastLinkedListNode currentNode;
@@ -18,7 +17,6 @@ public class FastLinkedList {
 
     public FastLinkedList() {
         sentinel = new FastLinkedListNode();
-        currentIndex = 0;
         curX = 0;
         curY = 0;
         currentNode = sentinel;
@@ -27,7 +25,6 @@ public class FastLinkedList {
     //get methods
     public FastLinkedListNode getSentinel(){return sentinel;}
     public FastLinkedListNode getCurrentNode() {return currentNode;}
-    public int getCurrentIndex() {return currentIndex;}
     public int getCurX() {
         return curX;
     }
@@ -59,7 +56,6 @@ public class FastLinkedList {
             currentNode = node;
         }
         size++;
-        currentIndex++;
         int charWidth = (int) Math.round(node.getItem().getLayoutBounds().getWidth());
         int charHeight = (int) Math.round(node.getItem().getLayoutBounds().getHeight());
     }
@@ -78,7 +74,6 @@ public class FastLinkedList {
             currentNode.setNext(currentNode.getNext().getNext());
         }
         size--;
-        currentIndex--;
         return ret;
     }
     public FastLinkedListNode findNodewithXYForUpAndLeft(int x, int y) {
@@ -130,17 +125,20 @@ public class FastLinkedList {
     public static void main(String[] args) {
         FastLinkedList f = new FastLinkedList();
         f.add(new FastLinkedListNode(new Text("a")));
+
         f.add(new FastLinkedListNode(new Text("b")));
         f.add(new FastLinkedListNode(new Text("c")));
         f.add(new FastLinkedListNode(new Text("d")));
         f.updateCurrentNode(f.getCurrentNode().getPrev());
         f.add(new FastLinkedListNode(new Text("x")));
+        System.out.println(f.getSize());
         System.out.println("currentnode: " + f.getCurrentNode().getItem().getText() +" == x");
         FastLinkedListNode ptr1 = f.getSentinel().getNext();
         while(ptr1!=null) {
             System.out.print(ptr1.getItem().getText() + " ");
             ptr1 = ptr1.getNext();
         }
+        System.out.println(f.getSize());
         System.out.println();
         f.remove();
         FastLinkedListNode ptr = f.getSentinel().getNext();
@@ -148,6 +146,7 @@ public class FastLinkedList {
             System.out.print(ptr.getItem().getText() + " ");
             ptr = ptr.getNext();
         }
+        System.out.println(f.getSize());
         System.out.println();
         System.out.println("currentnode: " + f.getCurrentNode().getItem().getText() +" == c");
     }
