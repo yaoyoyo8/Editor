@@ -83,9 +83,9 @@ public class FastLinkedList {
         int minusLen = 0;
         while (ptr != getSentinel()) {
             if (ptr.getYPos() > y) {
+                minusLen += rst.getCharWidth();
                 ptr = ptr.getPrev();
                 rst = ptr;
-                minusLen += rst.getCharWidth();
                 continue;
             } else {
                 if (x <= ptr.getXPos()) {
@@ -109,9 +109,9 @@ public class FastLinkedList {
         int addedLen = 0;
         while (ptr != null && ptr.getNext() != null) {
             if (ptr.getYPos() < y) {
+                addedLen += rst.getCharWidth();
                 ptr = ptr.getNext();
                 rst = ptr;
-                addedLen += rst.getCharWidth();
                 continue;
             } else {
                 if (x >= ptr.getXPos()) {
