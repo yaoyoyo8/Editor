@@ -63,8 +63,6 @@ public class FastLinkedList {
     public FastLinkedListNode remove() {
         if (getSize() == 0) {return null;}
         FastLinkedListNode ret = currentNode;
-        int charWidth = (int) Math.round(currentNode.getItem().getLayoutBounds().getWidth());
-        int charHeight = (int) Math.round(currentNode.getItem().getLayoutBounds().getHeight());
         if (getCurrentNode().getNext() == null) {
             currentNode = currentNode.getPrev();
             currentNode.setNext(null);
@@ -76,20 +74,23 @@ public class FastLinkedList {
         size--;
         return ret;
     }
-    public FastLinkedListNode findNodewithXYForUpAndLeft(int x, int y) {
+    public int findCurLenDiffForUpByXY(int x, int y) {
         if (y > currentNode.getYPos()) {
-            return null;
+            return 0;
         }
         FastLinkedListNode ptr = getCurrentNode();
         FastLinkedListNode rst = getCurrentNode();
+        int minusLen = 0;
         while (ptr != getSentinel()) {
             if (ptr.getYPos() > y) {
                 ptr = ptr.getPrev();
                 rst = ptr;
+                minusLen += rst.getCharWidth();
                 continue;
             } else {
                 if (x <= ptr.getXPos()) {
                     rst = ptr;
+                    minusLen += rst.getCharWidth();
                     ptr = ptr.getPrev();
                 } else {
                     break;
@@ -97,22 +98,25 @@ public class FastLinkedList {
             }
         }
         updateCurrentNode(rst);
-        return rst;
+        return minusLen;
     }
-    public FastLinkedListNode findNodewithXYForDownAndRight(int x, int y) {
+    public int findCurLenForDownByXY(int x, int y) {
         if (y < currentNode.getYPos()) {
-            return null;
+            return 0;
         }
         FastLinkedListNode ptr = getCurrentNode();
         FastLinkedListNode rst = getCurrentNode();
+        int addedLen = 0;
         while (ptr != null && ptr.getNext() != null) {
             if (ptr.getYPos() < y) {
                 ptr = ptr.getNext();
                 rst = ptr;
+                addedLen += rst.getCharWidth();
                 continue;
             } else {
                 if (x >= ptr.getXPos()) {
                     rst = ptr;
+                    addedLen += rst.getCharWidth();
                     ptr = ptr.getNext();
                 } else {
                     break;
@@ -120,7 +124,7 @@ public class FastLinkedList {
             }
         }
         updateCurrentNode(rst);
-        return rst;
+        return addedLen;
     }
     public static void main(String[] args) {
         FastLinkedList f = new FastLinkedList();
