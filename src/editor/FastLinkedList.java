@@ -98,7 +98,7 @@ public class FastLinkedList {
             }
         }
         updateCurrentNode(rst);
-        return minusLen;
+        return minusLen - ptr.getCharWidth();
     }
     public int findCurLenForDownByXY(int x, int y) {
         if (y < currentNode.getYPos()) {
@@ -124,7 +124,31 @@ public class FastLinkedList {
             }
         }
         updateCurrentNode(rst);
-        return addedLen;
+        return addedLen - ptr.getCharWidth();
+    }
+    public int findCurLenForMouse(int x, int y) {
+        FastLinkedListNode ptr = getSentinel().getNext();
+        FastLinkedListNode newCur = getCurrentNode();
+        int sum = 0;
+        while (ptr != null) {
+            if (ptr.getYPos() < y) {
+                sum += ptr.getCharWidth();
+                newCur = ptr;
+                ptr = ptr.getNext();
+            } else if (ptr.getYPos() == y) {
+                if (ptr.getXPos() < x) {
+                    sum += ptr.getCharWidth();
+                    newCur = ptr;
+                    ptr = ptr.getNext();
+                } else {
+                    break;
+                }
+            } else {
+                break;
+            }
+        }
+        updateCurrentNode(newCur);
+        return sum;
     }
     public static void main(String[] args) {
         FastLinkedList f = new FastLinkedList();
