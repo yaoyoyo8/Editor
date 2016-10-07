@@ -126,16 +126,18 @@ public class FastLinkedList {
         updateCurrentNode(rst);
         return addedLen - ptr.getCharWidth();
     }
-    public int findCurLenForMouse(int x, int y) {
+    public int findCurLenForMouse(int x, int y, int charHeight) {
         FastLinkedListNode ptr = getSentinel().getNext();
         FastLinkedListNode newCur = getCurrentNode();
         int sum = 0;
+      //  System.out.println(sum);
         while (ptr != null) {
-            if (ptr.getYPos() < y) {
+            System.out.println(ptr.getYPos());
+            if (ptr.getYPos() + charHeight < y) {
                 sum += ptr.getCharWidth();
                 newCur = ptr;
                 ptr = ptr.getNext();
-            } else if (ptr.getYPos() == y) {
+            } else if (ptr.getYPos() < y && ptr.getYPos() + charHeight > y) {
                 if (ptr.getXPos() < x) {
                     sum += ptr.getCharWidth();
                     newCur = ptr;
@@ -148,6 +150,7 @@ public class FastLinkedList {
             }
         }
         updateCurrentNode(newCur);
+        System.out.println(sum);
         return sum;
     }
     public static void main(String[] args) {
